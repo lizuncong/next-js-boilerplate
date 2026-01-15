@@ -1,32 +1,23 @@
-import { createErrorResponseJson, StatusCode, createResponseJson } from "./response-utils";
+import { headers } from "next/headers";
+import { StatusCode } from "./response-utils";
 
 
 
 class Request {
-  async request<Req, Res>(options: { api: string; method: string; data?: Req }) {
-    const { api, method, data } = options;
-    let url = api // `${process.env.GO_API_BASE}${api}`;
-    let config: RequestInit = {
-      method, // 指定请求方法
+  async request<Res>(options: RequestInit & { api: string }) {
+    const { api, ...rest } = options;
+
+    const config: RequestInit = {
+      ...rest
     };
-    if (method === 'POST') {
-      config = {
-        ...config,
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json', // 指定内容类型
-        },
-      };
-    } else if (method === 'GET') {
-      url += `?${new URLSearchParams(data).toString()}`;
-    }
+
     try {
-      const res = await fetch(url, config);
+      const res = await fetch(api, config);
       if (!res.ok) {
-        if(res.status === 404){
+        if (res.status === 404) {
           // not found
         }
-        if(res.status === 400){
+        if (res.status === 400) {
           // bad request
         }
         console.log('res..not ok, Bad Request', res)
@@ -38,39 +29,45 @@ class Request {
         }
 
         console.log('not ok...', errorMsg)
-        return createErrorResponseJson(StatusCode.BAD_REQUEST);
+        // return createErrorResponseJson(StatusCode.BAD_REQUEST);
       }
       console.log('not ok...', res)
 
       const result: Res = await res.json();
 
-      return createResponseJson({ ...result });
+      // return createResponseJson({ ...result });
     } catch (err) {
       if (err.cause) {
-        const { code, errno, syscall,hostname } = err.cause
-        if(code === 'ENOTFOUND'){
+        const { code, errno, syscall, hostname } = err.cause
+        if (code === 'ENOTFOUND') {
           console.error('DNS 解析失败，域名：', hostname);
-          return 
+          return
         }
       }
 
-      return createErrorResponseJson(StatusCode.INTERNAL_ERROR);
+      // return createErrorResponseJson(StatusCode.INTERNAL_ERROR);
     }
   }
 
-  get<Req, Res>(options: { api: string; params?:Req }) {
-    return this.request<Req, Res>({
-      api: options.api,
+  get<Req, Res>(options: { api: string; params?: Req; headers?: HeadersInit }) {
+    const { api, params, headers } = options;
+    return this.request<Res>({
+      api: params ? api + `?${new URLSearchParams(params).toString()}` : api,
       method: 'GET',
-      data: options.params,
+      headers,
     });
   }
 
-  post(options: { api: string; params: any }) {
-    return this.request({
-      api: options.api,
+  post<Req, Res>(options: { api: string; params: Req; headers?: HeadersInit }) {
+    const { api, params, headers } = options;
+    return this.request<Res>({
+      api: api,
       method: 'POST',
-      data: options.params,
+      body: params ? JSON.stringify(params) : null,
+      headers: {
+        'Content-Type': 'application/json', // 指定内容类型
+        ...headers,
+      },
     });
   }
 }
