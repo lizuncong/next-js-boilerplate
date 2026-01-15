@@ -1,4 +1,3 @@
-
 export enum StatusCode {
   SUCCESS = 200,
   BAD_REQUEST = 400,
@@ -12,7 +11,7 @@ class Request {
     const { api, ...rest } = options;
 
     const config: RequestInit = {
-      ...rest
+      ...rest,
     };
 
     try {
@@ -24,7 +23,7 @@ class Request {
         } catch {
           errorMsg = 'Can not read response text.';
         }
-        console.error('request failed, status:', res.status, errorMsg)
+        console.error('request failed, status:', res.status, errorMsg);
         if (res.status === 404) {
           return { msg: 'Not Found', code: StatusCode.NOT_FOUND };
         }
@@ -37,9 +36,9 @@ class Request {
       const result = await res.json();
       return { msg: 'Success', data: result, code: StatusCode.SUCCESS };
     } catch (err) {
-      console.error('unknown error, error:', err)
+      console.error('unknown error, error:', err);
       if (err.cause) {
-        const { code, errno, syscall, hostname } = err.cause
+        const { code, errno, syscall, hostname } = err.cause;
         if (code === 'ENOTFOUND') {
           console.error('DNS 解析失败，域名：', hostname);
           return { msg: 'DNS not found', code: StatusCode.NOT_FOUND };
@@ -53,16 +52,16 @@ class Request {
   get<Res>(options: { api: string; params?: URLSearchParams } & RequestInit) {
     const { api, params, ...rest } = options;
     return this.request<Res>({
-      api: params ? api + `?${new URLSearchParams(params).toString()}` : api,
+      api: params ? `${api}?${new URLSearchParams(params).toString()}` : api,
       method: 'GET',
-      ...rest
+      ...rest,
     });
   }
 
-  post<Res>(options: { api: string; params: unknown; } & RequestInit) {
+  post<Res>(options: { api: string; params: unknown } & RequestInit) {
     const { api, params, headers, ...rest } = options;
     return this.request<Res>({
-      api: api,
+      api,
       method: 'POST',
       ...rest,
       body: params ? JSON.stringify(params) : null,

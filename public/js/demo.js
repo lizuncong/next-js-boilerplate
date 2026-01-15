@@ -1,1 +1,1 @@
-console.log('boilerplate js')
+console.warn('boilerplate js');

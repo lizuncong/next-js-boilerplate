@@ -1,12 +1,12 @@
-interface Props {
+type Props = {
   children?: React.ReactNode;
   ratio?: number;
   className?: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
-  onClick?: () => void;
+  // onClick?: () => void;
   wrapCls?: string;
-}
+};
 
 const AspectRatio = ({
   children,
@@ -14,17 +14,17 @@ const AspectRatio = ({
   className,
   onMouseEnter,
   onMouseLeave,
-  onClick,
+  // onClick,
   wrapCls,
 }: Props) => {
   const paddingBottom = `${(1 / ratio) * 100}%`;
 
   return (
     <div
-      className={`relative w-full before:block ${wrapCls}  before:pt-[${paddingBottom}]`}
+      className={` relative w-full before:block ${wrapCls}  before:pt-[${paddingBottom}]`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onClick={onClick}
+      // onClick={onClick}
     >
       <div className={`absolute inset-0 ${className}`}>{children}</div>
     </div>

@@ -4,8 +4,8 @@
   "search.exclude": {
     "package-lock.json": true,
     "pnpm-lock.yaml": true,
-    "**/.vscode": true,                 // 新增：排除任意层级的 .vscode 目录
-    "**/.next": true  
+    "**/.vscode": true,
+    "**/.next": true
   },
 
   // TypeScript
@@ -17,7 +17,7 @@
     // give priority for Link to next/link instead of lucide-react
     "lucide-react",
     // Use Zod v4 instead of v3
-    "zod/v3",
+    "zod/v3"
   ],
 
   // I18n
