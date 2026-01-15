@@ -1,5 +1,5 @@
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   ratio?: number;
   className?: string;
   onMouseEnter?: () => void;
@@ -21,8 +21,7 @@ const AspectRatio = ({
 
   return (
     <div
-      className={`relative w-full ${wrapCls}`}
-      style={{ paddingBottom }}
+      className={`relative w-full before:block ${wrapCls}  before:pt-[${paddingBottom}]`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
