@@ -28,6 +28,7 @@ export default antfu(
     // Ignored paths
     ignores: [
       '.next/**/*',
+      'pnpm-workspace.yaml',
     ],
   },
   // --- Accessibility Rules ---

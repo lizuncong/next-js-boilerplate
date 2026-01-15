@@ -38,7 +38,7 @@ class Request {
     } catch (err) {
       console.error('unknown error, error:', err);
       if (err.cause) {
-        const { code, errno, syscall, hostname } = err.cause;
+        const { code, hostname } = err.cause;
         if (code === 'ENOTFOUND') {
           console.error('DNS 解析失败，域名：', hostname);
           return { msg: 'DNS not found', code: StatusCode.NOT_FOUND };
