@@ -1,3 +1,4 @@
+
 export enum StatusCode {
   SUCCESS = 200,
   BAD_REQUEST = 400,
@@ -7,7 +8,7 @@ export enum StatusCode {
 }
 
 class Request {
-  async request<Res>(options: RequestInit & { api: string }): Promise<{msg: string; data?: Res; code: StatusCode}> {
+  async request<Res>(options: RequestInit & { api: string }): Promise<{ msg: string; data?: Res; code: StatusCode }> {
     const { api, ...rest } = options;
 
     const config: RequestInit = {
@@ -49,20 +50,21 @@ class Request {
     }
   }
 
-  get<Res>(options: { api: string; params?: URLSearchParams; headers?: HeadersInit }) {
-    const { api, params, headers } = options;
+  get<Res>(options: { api: string; params?: URLSearchParams } & RequestInit) {
+    const { api, params, ...rest } = options;
     return this.request<Res>({
       api: params ? api + `?${new URLSearchParams(params).toString()}` : api,
       method: 'GET',
-      headers,
+      ...rest
     });
   }
 
-  post<Res>(options: { api: string; params: unknown; headers?: HeadersInit }) {
-    const { api, params, headers } = options;
+  post<Res>(options: { api: string; params: unknown; } & RequestInit) {
+    const { api, params, headers, ...rest } = options;
     return this.request<Res>({
       api: api,
       method: 'POST',
+      ...rest,
       body: params ? JSON.stringify(params) : null,
       headers: {
         'Content-Type': 'application/json', // 指定内容类型
