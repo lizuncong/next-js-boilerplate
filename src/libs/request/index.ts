@@ -35,7 +35,7 @@ class Request {
 
       const result = await res.json();
       return { msg: 'Success', data: result, code: StatusCode.SUCCESS };
-    } catch (err) {
+    } catch (err: any) {
       console.error('unknown error, error:', err);
       if (err.cause) {
         const { code, hostname } = err.cause;
