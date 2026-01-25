@@ -1,21 +1,19 @@
-import { parseQs } from '@/utils/query';
-
 export default async function Page({
   params,
-  searchParams,
+  // searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] }>;
+  // searchParams: Promise<{ [key: string]: string | string[] }>;
 }) {
   const param = await params;
-  const s = await searchParams;
-  console.warn(param, s, parseQs(s));
+  // const s = await searchParams;
+  // console.warn(param, s, parseQs(s));
   return (
     <div>
       hello word
 
       <div>{JSON.stringify(param)}</div>
-      <div>{JSON.stringify(parseQs(s))}</div>
+      {/* <div>{JSON.stringify(parseQs(s))}</div> */}
     </div>
   );
 }
