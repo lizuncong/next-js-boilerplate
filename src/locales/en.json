@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Hello world!ghhh"
+    "title": "Hello {name}"
   },
   "RootLayout": {
     "home_link": "Home",
