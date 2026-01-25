@@ -4,6 +4,7 @@
     "mikestead.dotenv",
     "bradlc.vscode-tailwindcss",
     "yoavbls.pretty-ts-errors",
-    "lokalise.i18n-ally"
+    "lokalise.i18n-ally",
+    "eamodio.gitlens"
   ]
 }

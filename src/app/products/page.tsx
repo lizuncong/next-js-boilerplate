@@ -1,4 +1,4 @@
-import { parseQs } from '@/libs/query';
+import { parseQs } from '@/utils/query';
 
 export default async function Page({
   params,

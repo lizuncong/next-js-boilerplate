@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { qsStringify } from '@/libs/query';
+import { qsStringify } from '@/utils/query';
 
 export default function Button() {
   const router = useRouter();
