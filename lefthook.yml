@@ -7,6 +7,11 @@ commit-msg:
 # Validate content before committing
 pre-commit:
   commands:
+    # 1. i18n 检查（
+    i18n-check:
+      glob: '*.{ts,tsx,json}' # 只检查相关文件变更时触发
+      run: npx check:i18n
+      fail_text: "i18n check failed! Run 'npm run i18n:sync' to fix."
     lint:
       glob: '*'
       run: npx --no -- eslint --fix --no-warn-ignored {staged_files}
