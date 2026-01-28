@@ -26,7 +26,7 @@ const AspectRatio = ({
       onMouseLeave={onMouseLeave}
       // onClick={onClick}
     >
-      <div className={`absolute inset-0 ${className}`}>{children}</div>
+      <div className={`absolute top-0 left-0 h-full w-full ${className}`}>{children}</div>
     </div>
   );
 };
